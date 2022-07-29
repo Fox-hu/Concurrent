@@ -47,5 +47,4 @@ fun main() {
     }
     println("消费者不需要更多数据了。")
     producerThread.interrupt()
-    producerThread.interrupt()
 }

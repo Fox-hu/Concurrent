@@ -36,7 +36,9 @@ class Consumer(val storage: BlockingQueue<Int>) {
 }
 
 fun main() {
-    //注意这里 队列的容量是有限的
+    //注意这里 队列的容量是有限的 超过最大限制后 再进队列的生产者会让线程await
+    //所以后面改变Volatile变量停止生产者线程的方式会失效
+    //因为此时生产者线程处于await状态 线程不会执行 也就无法停止
     val storage = ArrayBlockingQueue<Int>(10)
     val producer = Producer(storage)
     val producerThread = Thread(producer)
