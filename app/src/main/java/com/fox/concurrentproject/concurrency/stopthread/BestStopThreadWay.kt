@@ -1,4 +1,4 @@
-package com.component.kotlintest.demo.concurrency.stopthread
+package com.fox.concurrentproject.concurrency.stopthread
 
 
 /**
@@ -6,6 +6,9 @@ package com.component.kotlintest.demo.concurrency.stopthread
  * @Date 2022/4/23 18:04
  * 中断线程的最佳实践
  * 示例：在5s内 从0开始每隔10ms+1,打印出所有10的倍数的值
+ * 1、线程外使用thread.interrupt()中断线程
+ * 2、在线程内的异常流程中捕获 interrupt 再次调用 interrupt()
+ * 3、在线程内的正常流程中中断线程
  */
 class BestStopThreadWay : Runnable {
     override fun run() {
@@ -13,7 +16,7 @@ class BestStopThreadWay : Runnable {
         while (true) {
             // 监听isInterrupted状态 如果监听到了则中断线程
             if (Thread.currentThread().isInterrupted) {
-                println("interrupt 线程中断")
+                println("正常流程 interrupt 线程中断")
                 break
             }
             try {
@@ -26,7 +29,7 @@ class BestStopThreadWay : Runnable {
             } catch (e: InterruptedException) {
                 // 如果在sleep时接收到interrupt信息 则会走到此catch中
                 // 这时interrupt信息会被清空 需要再次调用interrupt 在正常流程中中断线程
-                e.printStackTrace()
+                println("异常捕获 interrupt 线程中断")
                 Thread.currentThread().interrupt()
             }
         }
