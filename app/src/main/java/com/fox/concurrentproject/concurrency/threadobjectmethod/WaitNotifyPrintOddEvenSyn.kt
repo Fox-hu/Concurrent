@@ -4,6 +4,7 @@ package com.fox.concurrentproject.concurrency.threadobjectmethod
  * @Author fox
  * @Date 2022/7/30 00:29
  * 两个线程交替打印0~100的奇偶数，用synchronized关键字实现
+ * 可能有废操作 一个线程可能会多次执行但是不打印 有性能浪费
  */
 fun main() {
     var count = 0

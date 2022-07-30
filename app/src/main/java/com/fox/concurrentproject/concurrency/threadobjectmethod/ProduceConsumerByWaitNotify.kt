@@ -33,7 +33,9 @@ class Storage {
     fun put() {
         synchronized(lock) {
             if (storageList.size == maxSize) {
+                println("仓库里已经满了 生产者等待")
                 lock.wait()
+                println("生产者被唤醒 继续生产")
             }
             storageList.add(Any())
             println("生产者 生产了商品 ,仓库里有了 ${storageList.size}个产品")
@@ -44,7 +46,9 @@ class Storage {
     fun take() {
         synchronized(lock) {
             if (storageList.isEmpty()) {
+                println("仓库里已经空了 消费者等待")
                 lock.wait()
+                println("消费者被唤醒 继续消费")
             }
             storageList.poll()
             println("消费者 消费了商品 ,现在仓库还剩下 ${storageList.size}")
